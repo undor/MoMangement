@@ -1,0 +1,51 @@
+<!doctype html>
+<html dir="rtl" lang="ar">
+  <head>
+    <title>Sarale's Site</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  </head>
+  <body>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">ניהול חשבונות - שרהלה</a>
+      </nav>
+      <div class="jumbotron">
+        <div class="container">
+          <center>  <h2>     שנה   {{year}} <br>  חודש {{month}} <br>גן {{garden_name}} </h2></center>
+        </div>
+      </div>
+      <div class="container">
+        <center>
+
+          <div class="card text-center" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">מצב תשלום</h5>
+              <p class="card-text"> {{info[0]["status"]}} </p>
+
+            </div>
+          </div>
+          <div class="card text-center" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">סכום</h5>
+              <p class="card-text">{{info[0]["amount"]}}   </p>
+
+            </div>
+          </div>
+          <div class="card text-center" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">תצלום</h5>
+              <p class="card-text"> {{info[0]["img_url"]}}  </p>
+            </div>
+          </div>
+          <br>
+          <br>
+          <a href="/delete_recept/{{info[0]['id']}}">
+          <button type="button" class="btn btn-danger">
+           מחיקת תשלום
+        </button>
+      </a>
+      </center>
+      </div>
+    </div>
+  </body>
+</html>

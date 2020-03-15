@@ -1,0 +1,191 @@
+<!doctype html>
+<html dir="rtl" lang="ar">
+  <head>
+    <title>Sarale's Site</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  </head>
+  <body>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">ניהול חשבונות - שרהלה</a>
+      </nav>
+      <div class="jumbotron">
+        <div class="container">
+          <center>  <h2> {{year}} </h2></center>
+        </div>
+      </div>
+      <div class="container">
+        <center>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal_2">
+              הוספת גן
+          </button>
+
+          <br>
+          <br>
+            <table class="table  table table-hover table-dark">
+              <thead>
+                <tr>
+                 <th scope="col">גנים</td>
+                 {% for i in range(12) %}
+                 <th scope="col"> <center>{{i+1}}</center></td>
+                 {% endfor %}
+                </tr>
+              </thead>   
+              <tbody>
+                <tr> 
+                {% for i in range(items|length) %}  
+          
+                <th scope="row">{{items[i][0]}}</th>    
+                      {% for month in range(12) %}
+                        {% if table[i][month-1] == 1 %}
+                        <td class="table-success">
+                          <center>
+                         <a href=" {{year}}/{{ids[i][0]}}/{{month}} "> 
+                          <button type="button" class="btn btn-primary" >
+                            V
+                           </button>       
+                          </a>
+
+                        </center>
+                        </td>
+                        {% endif %}
+                        {% if table[i][month-1] == 0 %}
+                        <td class="table-danger">
+                          <center>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-garden="{{items[i][0]}}" data-month="{{month+1}}">
+                             +
+                            </button>
+                        </center>
+                         </td>
+                         {% endif %}
+                      {% endfor %}
+                 </tr>
+              {% endfor %}
+            </tr>
+          </tbody>
+           </table>
+
+        
+           
+      </center>
+      </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+           
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"> X</button>
+          </div>
+          <div class="modal-body">
+            <form  action = "{{ url_for('res_page_recept') }}" method = "POST">
+            <center>
+              <b>
+              <h5 class="modal-body" id="exampleModalLabel">הוספת תשלום </h5>
+            </b>
+
+                <hr>
+                <label for="year-modal">גן</label>
+                <br>
+                <input class="modal-body-garden"  name="garden" type="text"  readonly>
+                  <br>
+
+                  
+              <label for="year-modal">שנה</label>
+              <br>
+              <input class="year-modal"  name="year" type="text"  readonly>
+                <br>
+
+              <label for="exampleFormControlSelect1">חודש</label>
+              <select class="form-control"   name="month" id="exampleFormControlSelect1">
+                {% for i in range(12) %}
+                <option> {{i+1}}</option>
+                {% endfor %}
+              </select>
+              <br>
+
+                <label for="date">תאריך תשלום:</label>
+                <br>
+                <input type="date" name="date" id="pay_day" name="pay_day">
+                  <br>
+
+                <label for="amount-modal"> סכום:</label>
+                <br>
+                <input class="amount-modal" name="amount" type="text" placeholder="0" >
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">סגור</button>
+            <button type="submit" class="btn btn-primary">הוסף</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </center>
+
+
+    <script>
+      $('#exampleModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) 
+      var month = button.data('month') 
+      var garden = button.data('garden') 
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+      modal.find('.modal-body-garden').val(garden)
+      modal.find('.year-modal').val("{{year}}")
+      modal.find('.form-control').val(month)
+    })
+    </script>
+
+<div class="modal fade" id="exampleModal_2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+       
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> X</button>
+      </div>
+      <div class="modal-body">
+        <center>
+        <form  action = "{{ url_for('res_page') }}" method = "POST">
+          <div class="input-group mb-3">     
+              <label for="exampleFormControlSelect1"> שם הגן </label>
+              <input type="text" class="form-control"  name="garden" placeholder="שם הגן" aria-label="שם הגן" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+              </div>
+            </div>
+            <div class="input-group mb-3">     
+              <label for="exampleFormControlSelect1"> מיקום </label>
+              <input type="text" class="form-control" name="location" placeholder="מיקום" aria-label="מיקום" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">בחר שיטת תשלום</label>
+              <select class="form-control" name="payment">
+                <option>מזומן</option>
+                <option>צ׳ק</option>
+                <option>שוטף 30</option>
+                <option>שוטף 60</option>
+              </select>
+              <label for="exampleFormControlSelect1"> שנת פעילות</label>
+              <input type="text" class="form-control"  name="year"  aria-describedby="basic-addon2" value="{{year}}"> 
+            </div>
+            <button type="submit" class="btn btn-primary">שלח</button>
+        </form>
+      </center>
+    </div>
+  </div>
+</div>
+</center>
+
+
+  </body>
+</html>
