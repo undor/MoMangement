@@ -13,9 +13,9 @@ def root():
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute("select * from kindergardens")
-    gardens = cur.fetchall();
+    gardens = cur.fetchall()
     cur.execute("SELECT DISTINCT year FROM recepts")
-    years = cur.fetchall();
+    years = cur.fetchall()
     return render_template("index.html",items=gardens,years = years)
 
 @app.route("/<year>")
@@ -24,11 +24,11 @@ def year_page(year):
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute("select DISTINCT name from kindergardens")
-    gardens_name = cur.fetchall();
+    gardens_name = cur.fetchall()
     final_table=[]
     for i in range(len(gardens_name)):
         cur.execute("SELECT  * from recepts WHERE (year= "+ year + " AND  kindergarden='"+ gardens_name[i][0]+ "')")
-        recepts = cur.fetchall();
+        recepts = cur.fetchall()
         final_table.append([0] *12)
         for line in recepts:
             cur_month=line["month"]-1
@@ -38,7 +38,6 @@ def year_page(year):
     
 @app.route('/res_page',methods = ['POST', 'GET'])
 def res_page():
-    msg=""
     if request.method == 'POST':
         con = sql.connect(garden_db.db_location)
         cur = con.cursor()      
@@ -55,11 +54,9 @@ def res_page():
             
 @app.route('/res_page_recept',methods = ['POST', 'GET'])
 def res_page_recept():
-    msg=""
     if request.method == 'POST':
         con = sql.connect(garden_db.db_location)
         cur = con.cursor()      
-
         garden = request.form['garden']
         year = request.form['year']
         month = request.form['month']
@@ -78,9 +75,9 @@ def recept_page(garden,year,month):
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute("select *  from recepts WHERE year="+ year+" AND month = "+ month+" AND kindergarden='"+ garden+"'")
-    info = cur.fetchall();
+    info = cur.fetchall()
     cur.execute("select DISTINCT name from kindergardens WHERE name='"+ garden+"'")
-    garden_n=cur.fetchall();
+    garden_n=cur.fetchall()
     if len(info)==0 :
         return "not exist!" + garden_n + " " + year + " " + month
     return render_template("recept.html",garden_name=garden_n[0][0],year= year,month=int(month)+1, info=info)
@@ -92,7 +89,7 @@ def delete_recept(recept_id):
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute("DELETE   from recepts WHERE id = " +recept_id)
-    return year_page(year)
+    return root()
     
 if __name__ == '__main__':
     garden_db.init_db(garden_db.db_location)
