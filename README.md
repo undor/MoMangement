@@ -12,8 +12,8 @@ JS,
 sqlite,
 google cloud for hosting
 
-# futere options
-scheduler for classes
-google maps inclusion 
+# Futere options
+scheduler for classes , 
+google maps inclusion  , 
 CNN for understanig captured recepts
 
